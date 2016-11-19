@@ -95,8 +95,23 @@ object IntermediateProblems extends App {
   def lotto(n: Int, m: Int) = randomSelect(n, range(1, m))
 
   def randomPermute[T](list: List[T]) = {
-    val r = randomSelect(list.size/2, list)
+    val r = randomSelect(list.size / 2, list)
     list.filterNot(r.toSet) ::: r
+  }
+
+  def combinations[T](n: Int, list: List[T]): List[List[T]] = {
+
+    if (n == 0) List(Nil)
+    else {
+      list match {
+        case Nil => Nil
+        case head :: tail => {
+          val remCombs = combinations(n - 1, tail) map (head :: _)
+          remCombs ::: combinations(n, tail)
+        }
+      }
+    }
+
   }
 
   println(flatten(List(List(1, 1), 2, List(3, List(5, 8))))) //List(1, 1, 2, 3, 5, 8)
@@ -119,4 +134,5 @@ object IntermediateProblems extends App {
   println(randomSelect(3, List('a, 'b, 'c, 'd, 'f, 'g, 'h))) //List('e, 'd, 'a)
   println(lotto(6, 49)) //List(23, 1, 17, 33, 21, 37)
   println(randomPermute(List('a, 'b, 'c, 'd, 'e, 'f))) //List('b, 'a, 'd, 'c, 'e, 'f)
+  println(combinations2(3, List('a, 'b, 'c, 'd, 'e, 'f))) //List(List('a, 'b, 'c), List('a, 'b, 'd), List('a, 'b, 'e), ...
 }
